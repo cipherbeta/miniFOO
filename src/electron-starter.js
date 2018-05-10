@@ -1,8 +1,7 @@
 const electron = require('electron');
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+// Modules to control app life, native browser window, and ipc.
+const {app, BrowserWindow, ipcMain} = electron;
+
 
 const path = require('path');
 const url = require('url');
@@ -14,8 +13,8 @@ let mainWindow;
 let windowVariables = {
   width: 800,
   height: 600,
-  minWidth: 350,
-  minHeight: 350,
+  minWidth: 575,
+  minHeight: 425,
   show: false,
   titleBarStyle: "hidden",
   frame: false,
@@ -24,7 +23,7 @@ let windowVariables = {
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({...windowVariables});
+  mainWindow = new BrowserWindow({...windowVariables, webPreferences: {nodeIntegrationInWorker: true}});
 
   // and load the index.html of the app.
   mainWindow.loadURL(`http://localhost:3000`);
@@ -67,4 +66,9 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+// Setup drag listeners
+ipcMain.on('onFileAdded', (e, args) => {
+  console.log("received transmission:" + args);
 });

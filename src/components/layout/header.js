@@ -3,19 +3,13 @@
 // Import Remote for Electron so we can control the browser window via icons.
 const electron = window.require('electron');
 const remote = electron.remote;
-const shell = remote.shell;
-const app = remote.app;
-const dialog = remote.dialog;
-
-// import file system to handle things
-const fs = require('fs');
 
 import React, {Component} from 'react';
 
 // Import BlueprintJS Modules
 import {Navbar, NavbarGroup, NavbarHeading, 
     NavbarDivider, Alignment, Button, ButtonGroup,
-    Tooltip, Position, Dialog, Intent, Slider, Switch, Icon} from '@blueprintjs/core';
+    Tooltip, Position, Dialog, Slider, Switch} from '@blueprintjs/core';
 
 class Header extends Component {
     state = {
@@ -24,14 +18,18 @@ class Header extends Component {
             imageQuality: 70,
             willCompressLossy: true,
             willOverwriteImage: false,
-            willAutoOptimize: false
+            willAutoOptimize: false,
+            prefixEnabled: false,
+            prefixText: "",
+            suffixEnabled: false,
+            suffixText: ""
         }
     }
 
-    handleImageQualityChange = (e) => {
+    handleImageQualityChange = (newQuality) => {
         this.setState(({settings})=> ({settings: {
             ...settings,
-            imageQuality: e
+            imageQuality: newQuality
         }}));
     }
 
@@ -56,16 +54,27 @@ class Header extends Component {
         }}));
     }
 
+    handlePrefixSuffixToggle = (type) => {
+        if(type === "prefix"){
+            this.setState(({settings})=> ({settings: {
+                ...settings,
+                prefixEnabled: !this.state.settings.prefixEnabled
+            }}));
+        } else if(type === "suffix"){
+            this.setState(({settings})=> ({settings: {
+                ...settings,
+                suffixEnabled: !this.state.settings.suffixEnabled
+            }}));
+        }
+
+    }
+
     toggleSettingsDialog = () => {
         this.setState({settingsIsOpen: !this.state.settingsIsOpen});
     }
 
-    openFileExplorerWindow = () => {
-        console.log("attempting to open window");
-        dialog.showOpenDialog();
-    }
-
     render(){
+        console.log(this.state.settings);
             return(
 
             <Navbar className="pt-navbar pt-fixed-top pt-dark">
@@ -75,9 +84,6 @@ class Header extends Component {
                     <small>v0.1.0</small>
                 </NavbarGroup>
                 <NavbarGroup align={Alignment.RIGHT}>
-                <Tooltip content="Open up a file to minifoo." position={Position.BOTTOM}>
-                    <Button className="pt-minimal pt-intent-primary" icon="document-open" onClick={()=>{this.openFileExplorerWindow()}}/> 
-                </Tooltip>
                 <Tooltip content="Change settings." position={Position.BOTTOM}>
                     <Button className="pt-minimal" icon="settings" onClick={()=>{this.toggleSettingsDialog()}}/> 
                 </Tooltip>
@@ -112,6 +118,11 @@ class Header extends Component {
 
                         <Switch checked={this.state.settings.willAutoOptimize}
                         label="Start Optimize as soon as file is added" onChange={this.handleAutoOptimizeChange}/>
+
+                        <Switch checked={this.state.settings.prefixEnabled}
+                        label="Save files with prefix" onChange={()=>{this.handlePrefixSuffixToggle("prefix")}}/>
+
+                        { this.state.settings.prefixEnabled ? <input className="pt-input" type="text" placeholder="image prefix"/> : null }
                     </div>
                     <div className="pt-dialog-footer">
                         <div className="pt-dialog-footer-actions">

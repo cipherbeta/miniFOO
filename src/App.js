@@ -5,6 +5,10 @@ import Layout from './hoc/layout';
 import ImageDropper from './components/imageDrop';
 
 class App extends Component {
+  state = {
+    images: []
+  }
+
   render() {
     return (
       <div className="App pt-dark">
