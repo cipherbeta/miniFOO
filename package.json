@@ -1,0 +1,29 @@
+{
+  "name": "elec-image-app",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/electron-starter.js",
+  "homepage": "./",
+  "dependencies": {
+    "@blueprintjs/core": "^2.3.1",
+    "ajv": "^6.5.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-scripts": "1.1.4",
+    "react-transition-group": "^2.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "scss": "node-sass -w src/scss/ -o public/css",
+    "dev": "concurrently \"npm start\" \"npm run electron\" \"npm run scss\""
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "electron": "^2.0.0",
+    "node-sass": "^4.9.0"
+  }
+}

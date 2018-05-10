@@ -1,0 +1,29 @@
+* {
+  user-select: none; }
+
+.App {
+  height: 100vh;
+  width: 100%;
+  background: rgba(32, 43, 51, 0.98);
+  color: #CED9E0;
+  padding-top: 50px; }
+
+.AppLayoutWrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  padding: 2em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.pt-navbar {
+  -webkit-app-region: drag; }
+  .pt-navbar * {
+    -webkit-app-region: no-drag; }
+
+.pt-non-ideal-state-title {
+  color: #CED9E0; }
+
+.pt-slider {
+  user-select: all !important; }
