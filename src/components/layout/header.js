@@ -58,7 +58,7 @@ const Header = (props) => {
                 <Switch checked={props.prefixEnabled}
                 label="Save files with prefix" onChange={props.handlePrefixSuffixToggle}/>
 
-                { props.prefixEnabled ? <input className="pt-input" type="text" placeholder="image prefix"/> : null }
+                { props.prefixEnabled ? <input className="pt-input" onChange={props.handlePrefixChange} type="text" placeholder="image prefix"/> : null }
             </div>
             <div className="pt-dialog-footer">
                 <div className="pt-dialog-footer-actions">

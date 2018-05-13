@@ -22,11 +22,10 @@ class App extends Component {
   }
 
   handleImageQualityChange = (newQuality) => {
-    // this.setState(({settings})=> ({settings: {
-    //     ...settings,
-    //     imageQuality: newQuality
-    // }}));
-    console.log('test');
+    this.setState(({settings})=> ({settings: {
+        ...settings,
+        imageQuality: newQuality
+    }}));
   }
 
   handleImageLossyChange = () => {
@@ -62,7 +61,14 @@ class App extends Component {
               suffixEnabled: !this.state.settings.suffixEnabled
           }}));
       }
+  }
 
+  handlePrefixChange = (v) => {
+    console.log(v);
+    this.setState(({settings})=> ({settings: {
+      ...settings,
+      prefixText: v
+  }}));
   }
 
   toggleSettingsDialog = () => {
@@ -75,11 +81,12 @@ class App extends Component {
       <div className="App pt-dark">
         <Layout>
           <Header
+          
             settingsOpen={this.state.settingsIsOpen}
             toggleSettingsDialog={()=>{this.toggleSettingsDialog()}}
 
             imageQuality={this.state.settings.imageQuality}
-            handleImageQualityChange={this.handleImageQualityChange()}
+            handleImageQualityChange={(e)=>{this.handleImageQualityChange(e)}}
 
             willCompressLossy={this.state.settings.willCompressLossy}
             handleWillCompressLossy={()=>{this.handleImageLossyChange()}}
@@ -91,8 +98,8 @@ class App extends Component {
             handleAutoOptimizeChange={()=>{this.handleAutoOptimizeChange()}}
 
             prefixEnabled={this.state.settings.prefixEnabled}
-            handlePrefixSuffixToggle={()=>{this.handlePrefixSuffixToggle("prefix")}}
-
+            handlePrefixSuffixToggle={(e)=>{this.handlePrefixSuffixToggle("prefix")}}
+            handlePrefixChange={(e)=>{this.handlePrefixChange(e)}}
 
             />
           <ImageDropper/>
