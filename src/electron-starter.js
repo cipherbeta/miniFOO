@@ -72,3 +72,9 @@ app.on('activate', function () {
 ipcMain.on('onFileAdded', (e, args) => {
   console.log("received transmission:" + args);
 });
+
+ipcMain.on('ondragstart', (event, filePath) => {
+  event.sender.startDrag({
+    file: filePath
+  })
+});

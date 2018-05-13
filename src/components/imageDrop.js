@@ -17,16 +17,16 @@ class ImageDropper extends Component {
     }
 
     openFileExplorerWindow = () => {
-        dialog.showOpenDialog({buttonLabel: 'Optimize Images', properties:[
-            'openFile', 'multiSelections']}, (openPath) => {
-                console.log(openPath);
-                for(let eachPath in openPath){
-                    let itemPath = openPath[eachPath];
-                    let itemName = path.basename(openPath[eachPath]);
+        dialog.showOpenDialog({filters: [
+            {name: 'Images', extensions: ['jpg', 'png']}], buttonLabel: 'Optimize Images', properties:[
+            'openFile', 'multiSelections',] }, (filePaths) => {
+                console.log(filePaths);
+                for(let eachPath in filePaths){
+                    let itemPath = filePaths[eachPath];
+                    let itemName = path.basename(filePaths[eachPath]);
                     let itemSize;
-                    fs.stat(openPath[eachPath], (error, data)=>{
+                    fs.stat(filePaths[eachPath], (error, data)=>{
                         if (error) throw error;
-                        console.log(data.size);
                         itemSize = data.size;
 
                         let nState = this.state.readyFiles.slice();
@@ -36,21 +36,24 @@ class ImageDropper extends Component {
 
 
                 }
+                if(filePaths === null){
+                    ipcRenderer.send('onFileAdded', [...filePaths]);
+                }
+                
 
-                ipcRenderer.send('onFileAdded', [...openPath]);
+                
             }
         );
     }
 
-    handleFileDrag = (e) => {
-        e.preventDefault();
-        console.log("drag completed");
+    handleFileDrag = (event) => {
+        event.stopPropagation();
+        event.nativeEvent.stopImmediatePropagation();
+        ipcRenderer('ondragstart', "testing");
         
     }
 
     generateTableLayout = () => {
-        console.log('ready to create table');
-
         let tableElement = this.state.readyFiles.map((item,i)=>{
             return(
                 <tr key={i}>
@@ -79,11 +82,9 @@ class ImageDropper extends Component {
     }
 
     render(){
-        console.log(this.state.readyFiles);
         return(
             <div className="divDropper"
-                onDrop={this.handleFileDrag}>
-
+                onDrop={(e)=>{this.handleFileDrag(e)}}>
 
                 {
                 
