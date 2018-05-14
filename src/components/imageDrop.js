@@ -8,7 +8,11 @@ const {dialog} = electron.remote;
 const fs = electron.remote.require('fs');
 const path = electron.remote.require('path');
 
+import imagemin from 'imagemin';
+
 import { NonIdealState, Button, Text } from '@blueprintjs/core';
+
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class ImageDropper extends Component {
     state = {
@@ -65,7 +69,7 @@ class ImageDropper extends Component {
         });
 
         let table = (
-            <table className="pt-html-table pt-interactive pt-small image-table">
+            <table className="pt-html-table pt-small image-table">
             <thead>
                 <tr>
                     <th>filename</th>
@@ -89,10 +93,15 @@ class ImageDropper extends Component {
                 {
                 
                 this.state.readyFiles.length > 0 ? 
-                <div className="tableDropper">
-                    <Button className="pt-minimal pt-intent-primary" text="Add More Files" onClick={this.openFileExplorerWindow}/>
-                    {this.generateTableLayout()}
-                </div>
+
+                <Scrollbars autoHide universal
+                autoHideTimeout={50}
+                autoHideDuration={0}>
+                    <div className="tableDropper">
+                        <Button className="pt-minimal pt-intent-primary" text="Add More Files" onClick={this.openFileExplorerWindow}/>
+                        {this.generateTableLayout()}
+                    </div>
+                </Scrollbars>
                 
                 : 
                 

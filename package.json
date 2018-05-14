@@ -7,7 +7,11 @@
   "dependencies": {
     "@blueprintjs/core": "^2.3.1",
     "ajv": "^6.5.0",
+    "imagemin": "^5.3.1",
+    "imagemin-jpegtran": "^5.0.2",
+    "imagemin-pngquant": "^5.1.0",
     "react": "^16.3.2",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.3.2",
     "react-scripts": "1.1.4",
     "react-transition-group": "^2.3.1"

@@ -26,6 +26,7 @@ class App extends Component {
         ...settings,
         imageQuality: newQuality
     }}));
+    
   }
 
   handleImageLossyChange = () => {
@@ -76,7 +77,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.settings);
     return (
       <div className="App pt-dark">
         <Layout>
@@ -102,7 +102,7 @@ class App extends Component {
             handlePrefixChange={(e)=>{this.handlePrefixChange(e)}}
 
             />
-          <ImageDropper/>
+          <ImageDropper settings={this.state.settings}/>
         </Layout>
       </div>
     );
